@@ -1,0 +1,86 @@
+﻿@page
+@model DataTableArrayModel
+@{
+    ViewData["Title"] = "Invoice List - With Datatable - from Javascript Array";
+    Layout = "_DataTableLayout";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Invoice List - With Datatable - from Javascript Array</h1>
+    <p>
+        <a asp-page="DataTable">Show DataTable - from HTML Table</a>
+    </p>
+    <p>
+        <a asp-page="Index">Show original Table (Html from Razor)</a>
+    </p>
+</div>
+
+<script type="text/javascript" language="javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+
+<script>
+  
+ 
+    /////////
+    function convertToDataSet(responseJSON) {
+        console.log(responseJSON);
+        var returnList = [];
+        var returnitem = [];
+        for (var i = 0; i < responseJSON.length; i++) {
+            console.log(responseJSON[i]);
+            returnitem = [];
+            returnitem.push(responseJSON[i].invoiceNumber);
+            returnitem.push(responseJSON[i].amount);
+            returnitem.push(responseJSON[i].costCategory);
+            returnitem.push(responseJSON[i].period);
+            returnList.push(returnitem);
+        }
+        return returnList;
+    }
+
+    function getTable() {
+        return fetch('./DataTableArray?handler=ArrayData',
+            {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            })
+            .then(function (response) {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw Error('Response Not OK');
+                }
+            })
+            .then(function (text) {
+                try {
+                    return JSON.parse(text);
+                } catch (err) {
+                    throw Error('Method Not Found');
+                }
+            })
+            .then(function (responseJSON) {
+                var dataSet = convertToDataSet(responseJSON);
+                console.log(dataSet);
+                $(document).ready(function () {
+                    $('#example').DataTable({
+                        data: dataSet,
+                        columns: [
+                            { title: "InvoiceNumber" },
+                            { title: "Amount" },
+                            { title: "CostCategory" },
+                            { title: "Period" },
+                        ]
+                    });
+                });
+            })
+    }
+
+    getTable();
+</script>
+
+<table id="example" class="display" width="100%"></table>
+
+

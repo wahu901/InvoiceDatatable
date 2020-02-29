@@ -1,0 +1,70 @@
+﻿@page
+@model DataTableModel
+@{
+    ViewData["Title"] = "Show DataTable - from HTML Table";
+    Layout = "_DataTableLayout";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Show DataTable - from HTML Table</h1>
+        <p>
+            <a asp-page="Index">Show original Table (Html from Razor)</a>
+        </p>
+        <p>
+            <a asp-page="DataTableArray">Show DataTable - from Javascript Array</a>
+        </p>
+    </div>
+
+<table class="table table-sm display" id="example" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].InvoiceNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].CostCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].Period)
+            </th>
+            <th>
+                Sample link
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvoiceList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Period)
+                </td>
+                <td><a asp-page="./Index">Back to Index</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript" language="javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "order": [[3, "desc"]]
+        });
+    });
+</script>
+
+
+

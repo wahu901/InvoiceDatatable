@@ -1,0 +1,59 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Show original Table (Html from Razor)";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Invoice List without DataTable</h1>
+        <p>
+            <a asp-page="DataTable">Show DataTable - from HTML Table</a>
+        </p>
+        <p>
+            <a asp-page="DataTableArray">Show DataTable - from Javascript Array</a>
+        </p>        
+    </div>
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].InvoiceNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].CostCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].Period)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvoiceList)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Period)
+            </td>
+            <td></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
